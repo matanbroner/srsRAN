@@ -459,7 +459,7 @@ void gtpu::send_pdu_to_tunnel(const gtpu_tunnel& tx_tun, srsran::unique_byte_buf
   }
 
   // [Matan] Modify target DNS IP on the uplink packet
-  mitm_utils::packet p = mitm_utils::parse_packet(data);
+  mitm_utils::packet p = mitm_utils::parse_packet(pdu->msg);
 
   struct in_addr src_ip_addr;
   src_ip_addr.s_addr = p.ip->iph_sourceip;
@@ -478,7 +478,7 @@ void gtpu::send_pdu_to_tunnel(const gtpu_tunnel& tx_tun, srsran::unique_byte_buf
         // For DNS, we need to fix IP and UDP checksums
         logger.debug("Applying checksums [IP, UDP] to packet");
         mitm_utils::compute_ip_checksum(&p);
-        mitm_utils::compute_udp_checksum(&p, pdu.length());
+        mitm_utils::compute_udp_checksum(&p, pdu->size());
 
         logger.debug("UL MiTM attack completed, forwarding packet");
     }
