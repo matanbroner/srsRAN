@@ -196,10 +196,13 @@ void apply_checksums(packet_t *p, int packetLength)
 
 void print_packet(uint8_t *pdu, int packetLength){
     printf("START PACKET\n");
+    fflush( stdout );
     for (int i = 0; i < packetLength; i++) {
         printf("%02x ", pdu[i] & 0xff);
+        fflush( stdout );
     } 
     printf("\nEND PACKET\n");
+    fflush( stdout );
 }
 
 } // namespace utils
