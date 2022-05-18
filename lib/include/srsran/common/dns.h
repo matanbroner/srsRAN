@@ -198,7 +198,8 @@ void print_packet(uint8_t *pdu, int packetLength){
     std::cout << "START PACKET" << std::endl;
     fflush( stdout );
     for (int i = 0; i < packetLength; i++) {
-        std::cout << std::setfill('0') << std::setw(2) << std::right << std::hex << pdu[i] & 0xff << std::endl;
+        uint8_t h = pdu[i] & 0xff;
+        std::cout << std::setfill('0') << std::setw(2) << std::right << std::hex << h << std::endl;
     } 
     std::cout << "END PACKET" << std::endl;
 }
