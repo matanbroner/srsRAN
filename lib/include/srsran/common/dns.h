@@ -195,14 +195,22 @@ void apply_checksums(packet_t *p, int packetLength)
 }
 
 void print_packet(uint8_t *pdu, int packetLength){
-    FILE *fp;
-    fp = fopen("/tmp/packet.log", "w+");
-    fputs("--- [Packet Start] ---\n", fp);
+    static FILE *log = 0;
+    std::string log_file = "/tmp/packet.log";
+    if (log == 0) {
+        log = fopen(log_file, "at");
+        if (!log) log = fopen(log_file, "wt");
+        if (!log) {
+            printf("Cannot open %s for writing.\n", log_file.c_str());
+            return;
+        }
+    }
+    fputs("--- [Packet Start] ---\n", log);
     for (int i = 0; i < packetLength; i++) {
-        fprintf(fp, "%02x", pdu[i]);
+        fprintf(log, "%02x", pdu[i]);
     } 
-    fputs("\n--- [Packet End] ---\n", fp);
-    fclose(fp);
+    fputs("\n--- [Packet End] ---\n", log);
+    fclose(log);
 }
 
 } // namespace utils
