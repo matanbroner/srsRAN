@@ -198,8 +198,8 @@ void print_packet(uint8_t *pdu, int packetLength){
     static FILE *log = 0;
     std::string log_file = "/tmp/packet.log";
     if (log == 0) {
-        log = fopen(log_file, "at");
-        if (!log) log = fopen(log_file, "wt");
+        log = fopen(log_file.c_str(), "at");
+        if (!log) log = fopen(log_file.c_str(), "wt");
         if (!log) {
             printf("Cannot open %s for writing.\n", log_file.c_str());
             return;
