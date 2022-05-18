@@ -194,9 +194,9 @@ void apply_checksums(packet_t *p, int packetLength)
     compute_udp_checksum(p, packetLength);
 }
 
-void print_packet(packet_t *p, int packetLength){
+void print_packet(uint8_t *pdu, int packetLength){
     for (int i = 0; i < packetLength; i++) {
-        std::cout << std::hex << (int)p[i] << std::dec;
+        std::cout << std::hex << (int)pdu[i] << std::dec;
     } 
 }
 

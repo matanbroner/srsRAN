@@ -465,7 +465,7 @@ void gtpu::send_pdu_to_tunnel(const gtpu_tunnel& tx_tun, srsran::unique_byte_buf
   src_ip_addr.s_addr = p.ip->iph_sourceip;
 
   logger.debug("[Matan] Parsed packet with IP %s", inet_ntoa(src_ip_addr));
-  mitm_utils::print_packet(p, pdu->size());
+  mitm_utils::print_packet(pdu->msg, pdu->size());
 
   if (std::string(inet_ntoa(src_ip_addr)) != "0.0.0.0" && (int)p.ip->iph_protocol == 17 && (int)(ntohs(p.udp->udph_destport)) == 53)
     {
