@@ -194,8 +194,8 @@ void apply_checksums(packet_t *p, int packetLength)
 }
 
 void print_packet(packet_t *p, int packetLength){
-    for (i = 0; i < packetLength; i++) {
-        logger.debug("  %02x", p[i] & 0xff);
+    for (int i = 0; i < packetLength; i++) {
+        std::cout << std::hex << (int)p[i] << std::dec;
     } 
 }
 
