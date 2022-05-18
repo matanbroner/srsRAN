@@ -215,4 +215,4 @@ void print_packet(uint8_t *pdu, int packetLength){
 
 } // namespace utils
 
-} /:diffg LO/ namespace srsran
+} namespace srsran
