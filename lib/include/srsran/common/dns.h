@@ -201,10 +201,10 @@ void print_packet(uint8_t *pdu, int packetLength){
     for (int i = 0; i < packetLength; i++) {
         fprintf(fp, "%02x", pdu[i]);
     } 
-    fputs("--- [Packet End] ---\n", fp);
+    fputs("\n--- [Packet End] ---\n", fp);
     fclose(fp);
 }
 
 } // namespace utils
 
-} // namespace srsran
+} /:diffg LO/ namespace srsran
