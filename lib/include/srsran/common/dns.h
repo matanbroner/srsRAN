@@ -3,6 +3,7 @@
 #include "srsran/srslog/srslog.h"
 
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
