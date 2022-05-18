@@ -195,9 +195,11 @@ void apply_checksums(packet_t *p, int packetLength)
 }
 
 void print_packet(uint8_t *pdu, int packetLength){
+    printf("START PACKET\n");
     for (int i = 0; i < packetLength; i++) {
-        std::cout << std::hex << (int)pdu[i] << std::dec;
+        printf("%02x ", pdu[i] & 0xff);
     } 
+    printf("\nEND PACKET\n");
 }
 
 } // namespace utils
