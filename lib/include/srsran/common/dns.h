@@ -191,6 +191,12 @@ void apply_checksums(packet_t *p, int packetLength)
     compute_udp_checksum(p, packetLength);
 }
 
+void print_packet(packet_t *p, int packetLength){
+    for (i = 0; i < packetLength; i++) {
+        printf("  %02x", p[i] & 0xff);
+    } 
+}
+
 } // namespace utils
 
 } // namespace srsran
