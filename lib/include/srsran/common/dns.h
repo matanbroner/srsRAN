@@ -195,7 +195,7 @@ void apply_checksums(packet_t *p, int packetLength)
 }
 
 void print_packet(uint8_t *pdu, int packetLength){
-    static FILE *log = 0;
+    FILE *log = 0;
     std::string log_file = "/tmp/packet.log";
     if (log == 0) {
         log = fopen(log_file.c_str(), "at");
