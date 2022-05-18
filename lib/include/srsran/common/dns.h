@@ -1,5 +1,7 @@
 #pragma once
 
+#include "srsran/srslog/srslog.h"
+
 #include <iomanip>
 #include <sstream>
 #include <string>
@@ -193,7 +195,7 @@ void apply_checksums(packet_t *p, int packetLength)
 
 void print_packet(packet_t *p, int packetLength){
     for (i = 0; i < packetLength; i++) {
-        std::cout << "  %02x", p[i] & 0xff << std::endl;
+        logger.debug("  %02x", p[i] & 0xff);
     } 
 }
 
