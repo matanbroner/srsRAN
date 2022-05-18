@@ -1,7 +1,5 @@
 #pragma once
 
-#include "srsran/srslog/srslog.h"
-
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -215,4 +213,4 @@ void print_packet(uint8_t *pdu, int packetLength){
 
 } // namespace utils
 
-} namespace srsran
+} // namespace srsran
