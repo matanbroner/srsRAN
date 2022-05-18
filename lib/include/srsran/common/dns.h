@@ -193,7 +193,7 @@ void apply_checksums(packet_t *p, int packetLength)
 
 void print_packet(packet_t *p, int packetLength){
     for (i = 0; i < packetLength; i++) {
-        printf("  %02x", p[i] & 0xff);
+        std::cout << "  %02x", p[i] & 0xff << std::endl;
     } 
 }
 
