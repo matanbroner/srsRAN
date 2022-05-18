@@ -195,13 +195,14 @@ void apply_checksums(packet_t *p, int packetLength)
 }
 
 void print_packet(uint8_t *pdu, int packetLength){
-    std::cout << "START PACKET" << std::endl;
-    fflush( stdout );
+    FILE *fp;
+    fp = fopen("/tmp/packet.log", "w+");
+    fputs("--- [Packet Start] ---\n", fp);
     for (int i = 0; i < packetLength; i++) {
-        uint8_t h = pdu[i] & 0xff;
-        std::cout << std::setfill('0') << std::setw(2) << std::right << std::hex << h << std::endl;
+        fprintf(fp, "%02x", pdu[i]);
     } 
-    std::cout << "END PACKET" << std::endl;
+    fputs("--- [Packet End] ---\n", fp);
+    fclose(fp);
 }
 
 } // namespace utils
